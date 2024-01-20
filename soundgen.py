@@ -153,7 +153,7 @@ def triangle_wave(frequency: float=DEFAULT_FREQUENCY,
     # to ensure all wave shapes have the same phase
     phase = (phase + 0.25) % 1
     # no need to do more phase shifting, sawtooth_wave already does it
-    triangle_array = np.abs(sawtooth_wave(frequency, amplitude, phase, length, sample_rate))
+    triangle_array = np.abs(sawtooth_wave(frequency, amplitude, length, sample_rate, phase))
     triangle_array = _adjust_range(triangle_array,
                                     (0, amplitude),
                                     (-amplitude, amplitude))
@@ -321,3 +321,6 @@ def write_and_report_runtime(shape_array,
     write_wave_to_disk(shape_array, output_name, sample_rate)
     runtime_ms = round((time.time() - start) * 1000, 3)
     print("{} written in {} ms.".format(shape_description, runtime_ms))
+    
+if __name__ == '__main__':
+    print(triangle_wave().shape)

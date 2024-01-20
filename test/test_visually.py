@@ -2,7 +2,9 @@
 from context import soundgen
 from soundgen import *
 
+TEST_SAMPLE_RATE = 44100
 TEST_LENGTH = 1
+TEST_AMPLITUDE = 0.2
 
 # Inspect the following waveforms to ensure they push the sine wave back as
 # desired.

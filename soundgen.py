@@ -36,9 +36,9 @@ def _shift_phase(wave: np.ndarray, extra_samples: int) -> np.ndarray:
 
 def sine_wave(frequency: float=DEFAULT_FREQUENCY,
               amplitude: float=DEFAULT_AMPLITUDE,
-              phase: float=0,
               length: float=DEFAULT_LENGTH,
-              sample_rate: int=DEFAULT_SAMPLE_RATE) -> np.ndarray:
+              sample_rate: int=DEFAULT_SAMPLE_RATE,
+              phase: float=0) -> np.ndarray:
     """
     Generates an array of a sinuoidal wave.
 
@@ -84,9 +84,9 @@ def _pulse_basic(frequency: float,
 
 def pulse_wave(frequency: float=DEFAULT_FREQUENCY,
                amplitude: float=DEFAULT_AMPLITUDE,
-               phase: float=0,
                length: float=DEFAULT_LENGTH,
                sample_rate: int=DEFAULT_SAMPLE_RATE,
+               phase: float=0,
                duty_cycle: float=0.5) -> np.ndarray:
     """
     Generates an array of a pulse wave with a given duty cycle.
@@ -110,9 +110,9 @@ def pulse_wave(frequency: float=DEFAULT_FREQUENCY,
 
 def sawtooth_wave(frequency: float=DEFAULT_FREQUENCY,
                   amplitude: float=DEFAULT_AMPLITUDE,
-                  phase: float=0,
                   length: float=DEFAULT_LENGTH,
-                  sample_rate: int=DEFAULT_SAMPLE_RATE) -> np.ndarray:
+                  sample_rate: int=DEFAULT_SAMPLE_RATE,
+                  phase: float=0) -> np.ndarray:
     """Generates an array of a sawtooth wave.
 
     Args:
@@ -135,9 +135,9 @@ def sawtooth_wave(frequency: float=DEFAULT_FREQUENCY,
 
 def triangle_wave(frequency: float=DEFAULT_FREQUENCY,
                   amplitude: float=DEFAULT_AMPLITUDE,
-                  phase: float=0,
                   length: float=DEFAULT_LENGTH,
-                  sample_rate: int=DEFAULT_SAMPLE_RATE) -> np.ndarray:
+                  sample_rate: int=DEFAULT_SAMPLE_RATE,
+                  phase: float=0) -> np.ndarray:
     """Generates an array of a triangle wave.
 
     Args:

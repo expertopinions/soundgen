@@ -5,14 +5,10 @@ import numpy as np
 import scipy.io.wavfile
 import time
 
-DEFAULT_SAMPLE_RATE = 48000
-DEFAULT_LENGTH = 5
-DEFAULT_FREQUENCY = 440
 TWO_PI = 2 * np.pi
-DEFAULT_AMPLITUDE = 0.2
 
-def _sample_count_array(length: float=DEFAULT_LENGTH,
-                        sample_rate: int=DEFAULT_SAMPLE_RATE,
+def _sample_count_array(length: float,
+                        sample_rate: int,
                         extra_samples: int=0) -> np.ndarray:
     return np.arange(sample_rate * length + extra_samples)
 
@@ -34,20 +30,20 @@ def _overshoot_for_phase_shift(frequency: float,
 def _shift_phase(wave: np.ndarray, extra_samples: int) -> np.ndarray:
     return wave[extra_samples:]
 
-def sine_wave(frequency: float=DEFAULT_FREQUENCY,
-              amplitude: float=DEFAULT_AMPLITUDE,
-              length: float=DEFAULT_LENGTH,
-              sample_rate: int=DEFAULT_SAMPLE_RATE,
+def sine_wave(frequency: float,
+              amplitude: float,
+              length: float,
+              sample_rate: int,
               phase: float=0) -> np.ndarray:
     """
     Generates an array of a sinuoidal wave.
 
     Args:
-        frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
+        frequency (float, optional): Frequency of the wave in hertz.
+        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float, optional): Length of the wave in seconds.
+        sample_rate (int, optional): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
-        length (float, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (int, optional): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
 
     Returns:
         np.ndarray: a sinusoidal wave
@@ -57,35 +53,35 @@ def sine_wave(frequency: float=DEFAULT_FREQUENCY,
     sine_array = _shift_phase(sine_array, extra_samples)
     return sine_array.astype(np.float32)
 
-def _sawtooth_basic(frequency: float=DEFAULT_FREQUENCY,
-                    length: float=DEFAULT_LENGTH,
-                    sample_rate: int=DEFAULT_SAMPLE_RATE,
+def _sawtooth_basic(frequency: float,
+                    length: float,
+                    sample_rate: int,
                     extra_samples: int=0):
     """
     Helper function for sawtooth, pulse, and triangle.
     Generates sawtooth with range [0,1).
     """
-    sawtooth_array = _sample_count_array(length, sample_rate, extra_samples) * frequency / DEFAULT_SAMPLE_RATE
+    sawtooth_array = _sample_count_array(length, sample_rate, extra_samples) * frequency / sample_rate
     sawtooth_array = sawtooth_array - np.floor_divide(sawtooth_array, 1)
     return sawtooth_array
 
 def _pulse_basic(frequency: float,
-        length: float=DEFAULT_LENGTH,
-        sample_rate: int=DEFAULT_SAMPLE_RATE,
+        length: float,
+        sample_rate: int,
         duty_cycle: float=0.5,
         extra_samples: int=0):
     """
     Helper function for pulse. May also be useful for pulse LFOs.
     """
     clipper = np.vectorize(lambda x: 0 if x >= duty_cycle else 1)
-    pulse_array = _sawtooth_basic(frequency, sample_rate, length, extra_samples)
+    pulse_array = _sawtooth_basic(frequency, length, sample_rate, extra_samples)
     pulse_array = clipper(pulse_array)
     return pulse_array
 
-def pulse_wave(frequency: float=DEFAULT_FREQUENCY,
-               amplitude: float=DEFAULT_AMPLITUDE,
-               length: float=DEFAULT_LENGTH,
-               sample_rate: int=DEFAULT_SAMPLE_RATE,
+def pulse_wave(frequency: float,
+               amplitude: float,
+               length: float,
+               sample_rate: int,
                phase: float=0,
                duty_cycle: float=0.5) -> np.ndarray:
     """
@@ -93,11 +89,11 @@ def pulse_wave(frequency: float=DEFAULT_FREQUENCY,
 
     Args:
         frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
+        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float, optional): Length of the wave in seconds.
+        sample_rate (int, optional): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
-        length (float, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (int, optional): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
-        duty_cycle (float, optional): Proportion of time the wave spends in its high position. Takes inputs in [0,1]. 
+        duty_cycle (float, optional): Proportion of time the wave spends in its high position. Takes inputs in [0,1]. Defaults to 0.5.
 
     Returns:
         np.ndarray: a pulse wave
@@ -108,19 +104,19 @@ def pulse_wave(frequency: float=DEFAULT_FREQUENCY,
     pulse_array = _shift_phase(pulse_array, extra_samples)
     return pulse_array.astype(np.float32)
 
-def sawtooth_wave(frequency: float=DEFAULT_FREQUENCY,
-                  amplitude: float=DEFAULT_AMPLITUDE,
-                  length: float=DEFAULT_LENGTH,
-                  sample_rate: int=DEFAULT_SAMPLE_RATE,
+def sawtooth_wave(frequency: float,
+                  amplitude: float,
+                  length: float,
+                  sample_rate: int,
                   phase: float=0) -> np.ndarray:
     """Generates an array of a sawtooth wave.
 
     Args:
         frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
-        phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
+        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
         length (float, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (float, optional): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
+        sample_rate (float, optional): Number of samples per second.
+        phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
 
     Returns:
         np.ndarray: a sawtooth wave
@@ -128,24 +124,24 @@ def sawtooth_wave(frequency: float=DEFAULT_FREQUENCY,
     # to ensure all wave shapes have the same phase
     phase = (phase + 0.5) % 1
     extra_samples = _overshoot_for_phase_shift(frequency, sample_rate, phase)
-    sawtooth_array = _sawtooth_basic(frequency, sample_rate, length, extra_samples)
+    sawtooth_array = _sawtooth_basic(frequency, length, sample_rate, extra_samples)
     sawtooth_array = _adjust_range(sawtooth_array, new_range=(-amplitude, amplitude))
     sawtooth_array = _shift_phase(sawtooth_array, extra_samples)
     return sawtooth_array.astype(np.float32)
 
-def triangle_wave(frequency: float=DEFAULT_FREQUENCY,
-                  amplitude: float=DEFAULT_AMPLITUDE,
-                  length: float=DEFAULT_LENGTH,
-                  sample_rate: int=DEFAULT_SAMPLE_RATE,
+def triangle_wave(frequency: float,
+                  amplitude: float,
+                  length: float,
+                  sample_rate: int,
                   phase: float=0) -> np.ndarray:
     """Generates an array of a triangle wave.
 
     Args:
         frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
+        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float, optional): Length of the wave in seconds.
+        sample_rate (float, optional): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
-        length (float, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (float, optional): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
 
     Returns:
         np.ndarray: a triangle wave
@@ -159,15 +155,15 @@ def triangle_wave(frequency: float=DEFAULT_FREQUENCY,
                                     (-amplitude, amplitude))
     return triangle_array.astype(np.float32)
 
-def white_noise(amplitude: float=DEFAULT_AMPLITUDE,
-                length: float=DEFAULT_LENGTH,
-                sample_rate: int=DEFAULT_SAMPLE_RATE):
+def white_noise(amplitude: float,
+                length: float,
+                sample_rate: int):
     """Generates an array of white noise.
 
     Args:
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
-        length (_type_, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (_type_, optional): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
+        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (_type_, optional): Length of the wave in seconds.
+        sample_rate (_type_, optional): Number of samples per second.
 
     Returns:
         np.ndarray: white noise
@@ -177,8 +173,8 @@ def white_noise(amplitude: float=DEFAULT_AMPLITUDE,
     return noise_array.astype(np.float32)
 
 def _frequency_sweep_array(f0: float, f1: float,
-                          length: float=DEFAULT_LENGTH,
-                          sample_rate: int=DEFAULT_SAMPLE_RATE) -> np.ndarray:
+                          length: float,
+                          sample_rate: int) -> np.ndarray:
     """Helper function for `sine_sweep`"""
     t = _sample_count_array(length, sample_rate)
     total_time = t.shape[0]
@@ -186,9 +182,9 @@ def _frequency_sweep_array(f0: float, f1: float,
     return c * t * t / 2 + f0 * t
 
 def sine_sweep(f0: float, f1: float,
-              amplitude: float=DEFAULT_AMPLITUDE,
-              length: float=DEFAULT_LENGTH,
-              sample_rate: int=DEFAULT_SAMPLE_RATE) -> np.ndarray:
+              amplitude: float,
+              length: float,
+              sample_rate: int) -> np.ndarray:
     """
     Generates an array of a sine wave sweep from a starting frequency `f0` to an ending frequency `f1`.
     
@@ -225,7 +221,7 @@ def wave_interpolation(a: np.ndarray, b: np.ndarray,
 
 def adsr(attack: float, decay: float,
          sustain: float, release: float, press_time: float,
-         sample_rate: int=DEFAULT_SAMPLE_RATE):
+         sample_rate: int):
     """Produces an ADSR envelope.
 
     Args:
@@ -308,13 +304,13 @@ def find_nearest_zero_crossing(array: np.ndarray,
 
 def write_wave_to_disk(shape_array,
                        output_name,
-                       sample_rate=DEFAULT_SAMPLE_RATE):
+                       sample_rate):
     """Writes a given waveform to disk"""
     scipy.io.wavfile.write("{}.wav".format(output_name), sample_rate, shape_array)
 
 def write_and_report_runtime(shape_array,
                              output_name,
-                             sample_rate=DEFAULT_SAMPLE_RATE,
+                             sample_rate,
                              shape_description="Waveform"):
     """Writes a given waveform to disk and reports its runtime to terminal"""
     start = time.time()

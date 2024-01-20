@@ -321,6 +321,3 @@ def write_and_report_runtime(shape_array,
     write_wave_to_disk(shape_array, output_name, sample_rate)
     runtime_ms = round((time.time() - start) * 1000, 3)
     print("{} written in {} ms.".format(shape_description, runtime_ms))
-    
-if __name__ == '__main__':
-    print(triangle_wave().shape)

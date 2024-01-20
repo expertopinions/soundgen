@@ -39,10 +39,10 @@ def sine_wave(frequency: float,
     Generates an array of a sinuoidal wave.
 
     Args:
-        frequency (float, optional): Frequency of the wave in hertz.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
-        length (float, optional): Length of the wave in seconds.
-        sample_rate (int, optional): Number of samples per second.
+        frequency (float): Frequency of the wave in hertz.
+        amplitude (float): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float): Length of the wave in seconds.
+        sample_rate (int): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
 
     Returns:
@@ -88,10 +88,10 @@ def pulse_wave(frequency: float,
     Generates an array of a pulse wave with a given duty cycle.
 
     Args:
-        frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
-        length (float, optional): Length of the wave in seconds.
-        sample_rate (int, optional): Number of samples per second.
+        frequency (float): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
+        amplitude (float): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float): Length of the wave in seconds.
+        sample_rate (int): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
         duty_cycle (float, optional): Proportion of time the wave spends in its high position. Takes inputs in [0,1]. Defaults to 0.5.
 
@@ -112,10 +112,10 @@ def sawtooth_wave(frequency: float,
     """Generates an array of a sawtooth wave.
 
     Args:
-        frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
-        length (float, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (float, optional): Number of samples per second.
+        frequency (float): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
+        amplitude (float): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
+        sample_rate (float): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
 
     Returns:
@@ -137,10 +137,10 @@ def triangle_wave(frequency: float,
     """Generates an array of a triangle wave.
 
     Args:
-        frequency (float, optional): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
-        length (float, optional): Length of the wave in seconds.
-        sample_rate (float, optional): Number of samples per second.
+        frequency (float): Frequency of the wave in hertz. Defaults to `DEFAULT_FREQUENCY`.
+        amplitude (float): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float): Length of the wave in seconds.
+        sample_rate (float): Number of samples per second.
         phase (float, optional): Phase of the wave in turns (1 turn = 360 degrees = 2pi radians). Takes inputs in [0,1). Defaults to 0.
 
     Returns:
@@ -161,9 +161,9 @@ def white_noise(amplitude: float,
     """Generates an array of white noise.
 
     Args:
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
-        length (_type_, optional): Length of the wave in seconds.
-        sample_rate (_type_, optional): Number of samples per second.
+        amplitude (float): Amplitude of the wave. This is a dimensionless quantity in range [0,1].
+        length (float): Length of the wave in seconds.
+        sample_rate (int): Number of samples per second.
 
     Returns:
         np.ndarray: white noise
@@ -193,9 +193,9 @@ def sine_sweep(f0: float, f1: float,
     Args:
         f0 (float): Starting frequency of the sweep in hertz.
         f1 (float): Ending frequency of the sweep in hertz.
-        amplitude (float, optional): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
-        length (float, optional): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
-        sample_rate (int, optional): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
+        amplitude (float): Amplitude of the wave. This is a dimensionless quantity in range [0,1]. Defaults to `DEFAULT_AMPLITUDE`.
+        length (float): Length of the wave in seconds. Defaults to `DEFAULT_LENGTH`.
+        sample_rate (int): Number of samples per second. Defaults to `DEFAULT_SAMPLE_RATE`.
 
     Returns:
         np.ndarray: a sine wave sweep
